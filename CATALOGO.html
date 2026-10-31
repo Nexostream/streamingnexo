@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X6FLKYHM1E"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-X6FLKYHM1E');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXO STREAM | Catálogo Mayorista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800;900&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #000000;
+            --card-bg: #020612;  
+            --text-primary: #ffffff;
+            --text-secondary: #bf0c4c;
+            --orange: #0026e6; 
+            --radius: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+
+        body { background-color: var(--bg-color) !important; color: var(--text-primary); overflow-x: hidden; }
+        a { text-decoration: none; }
+
+        .main-header { padding: 30px 0 15px 0; text-align: center; }
+        
+        .brand-container {
+            display: inline-flex; align-items: center; gap: 10px; margin-bottom: 15px;
+            background: rgba(255,255,255,0.05); padding: 8px 20px; border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .brand-name { color: var(--orange); font-weight: 800; letter-spacing: 1px; font-size: 1.2rem;}
+
+        .main-title {
+            font-size: clamp(1.2rem, 4vw, 2rem); font-weight: 900; margin-bottom: 10px;
+            background: linear-gradient(to bottom, #fff, #aaa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            line-height: 1.3;
+        }
+        
+        .hero-botones { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 20px 0 30px 0; padding: 0 15px; }
+        
+        .btn-youtube {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444;
+            padding: 12px 20px; border-radius: 10px; font-weight: 700; font-size: 0.95rem;
+            transition: all 0.3s ease; width: 100%; max-width: 320px;
+        }
+        .btn-youtube:hover { background: #ef4444; color: white; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4); transform: translateY(-2px); }
+
+        .btn-revender {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background: rgba(34, 197, 94, 0.1); border: 1px solid #22c55e; color: #22c55e;
+            padding: 12px 20px; border-radius: 10px; font-weight: 700; font-size: 0.95rem;
+            transition: all 0.3s ease; width: 100%; max-width: 320px;
+        }
+        .btn-revender:hover { background: #22c55e; color: black; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); transform: translateY(-2px); }
+
+        /* CARRUSEL EXTRA LENTO (300s) */
+        .carousel-section { 
+            margin-bottom: 30px; overflow: hidden; background: transparent; 
+            border-top: 1px solid rgba(255, 255, 255, 0.05); 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+            padding: 20px 0; position: relative;
+        }
+
+        .marquee-item {
+            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.01) 100%) !important;
+            backdrop-filter: blur(4px);
+            border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.5) !important;
+            border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            padding: 8px 20px; border-radius: 50px;
+            display: flex; align-items: center; gap: 10px;
+            color: white; font-weight: 700; font-size: 0.85rem;
+            position: relative; overflow: hidden; white-space: nowrap; z-index: 50; cursor: pointer;
+            user-select: none; /* Evita que el texto se seleccione al hacer clic en móvil */
+        }
+
+        .marquee-item img { width: 22px; height: 22px; object-fit: contain; filter: drop-shadow(0 0 3px rgba(255,255,255,0.5)); pointer-events: none;}
+        
+        .marquee-item::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.5), transparent);
+            transform: skewX(-25deg); pointer-events: none;
+        }
+
+        .marquee-item:hover {
+            background: linear-gradient(180deg, var(--orange) 0%, rgba(0,0,0,0.5) 100%) !important;
+            border-color: var(--orange) !important; box-shadow: 0 0 20px var(--orange); transform: translateY(-3px) scale(1.05);
+        }
+        .marquee-item:hover::before { animation: shine-sweep 2.5s; }
+
+        .marquee-container { width: 100%; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);}
+        .marquee-track { display: flex; gap: 20px; width: max-content; animation: scroll 300s linear infinite; }
+        .marquee-container:hover .marquee-track { animation-play-state: paused; }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .search-wrapper { display: flex; justify-content: center; width: 100%; margin-bottom: 20px; padding: 0 15px; }
+        .search-box {
+            background: rgba(20, 20, 30, 0.8); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1); padding: 12px 25px; border-radius: 50px; 
+            display: flex; align-items: center; gap: 15px; width: 100%; max-width: 500px; 
+            transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .search-box:focus-within { border-color: var(--orange); box-shadow: 0 0 20px rgba(0, 38, 230, 0.4); transform: scale(1.02); }
+        .search-box input { background: transparent; border: none; outline: none; color: white; font-size: 0.95rem; width: 100%; font-weight: 500; }
+        .search-box input::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+        .category-menu {
+            display: flex; gap: 10px; overflow-x: auto; padding: 5px 15px 15px 15px;
+            margin-bottom: 20px; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        }
+        .category-menu::-webkit-scrollbar { display: none; }
+        .cat-btn {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            color: #ccc; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem;
+            font-weight: 600; cursor: pointer; white-space: nowrap; transition: 0.3s;
+        }
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--orange); border-color: var(--orange); color: white;
+            box-shadow: 0 0 15px rgba(0,38,230,0.5);
+        }
+
+        .container-box { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        .grid-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 20px; padding-bottom: 50px; 
+        }
+
+        .card {
+            background-color: var(--card-bg) !important; background-image: none !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.3); border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid rgba(0, 0, 0, 0.5); border-bottom: 3px solid rgba(0, 0, 0, 0.8);
+            border-radius: var(--radius); padding: 18px; 
+            display: flex; flex-direction: column; position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6); overflow: hidden; 
+        }
+
+        .card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+            transform: skewX(-25deg); pointer-events: none; z-index: 10;
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 10px;}
+        .logo-and-type { display: flex; align-items: center; gap: 12px; }
+        
+        .service-logo-img {
+            width: 45px; height: 45px; min-width: 45px; object-fit: contain;
+            background: rgba(255, 255, 255, 0.95); padding: 5px; border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); z-index: 2;
+        }
+
+        .type-badge {
+            font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 6px;
+            text-transform: uppercase; letter-spacing: 0.5px; z-index: 2; display: inline-block;
+        }
+        .type-perfil { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); color: #ddd; }
+        .type-completa { background: rgba(245, 158, 11, 0.15); border: 1px solid #f59e0b; color: #f59e0b; }
+        .type-panel { background: rgba(59, 130, 246, 0.15); border: 1px solid #3b82f6; color: #3b82f6; }
+        .type-combo { background: rgba(34, 197, 94, 0.15); border: 1px solid #22c55e; color: #22c55e; }
+
+        .service-info { margin-bottom: 10px; z-index: 2; }
+        .service-info h3 { font-size: 1.15rem; font-weight: 800; line-height: 1.2; margin-bottom: 4px; color: #fff;}
+        .service-subtitle { font-size: 0.8rem; color: #aaa; display: block; line-height: 1.3;}
+
+        .status-badge { padding: 4px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; z-index: 2; white-space: nowrap;}
+        .status-disponible { background: #2ecc71 !important; color: white !important; box-shadow: 0 0 8px #2ecc71; }
+        .status-agotado { background: #e74c3c !important; color: white !important; }
+        .status-oferta { background: #ff9f1c !important; color: black !important; box-shadow: 0 0 10px #ff9f1c; }
+
+        .card-body { margin-bottom: 15px; z-index: 2; flex-grow: 1;}
+        .price-row { display: flex; align-items: baseline; gap: 2px; }
+        .currency { color: var(--orange); font-size: 1rem; font-weight: 700; }
+        .price-number { font-size: 1.8rem; font-weight: 900; color: white; }
+        .service-desc { 
+            color: #999; font-size: 0.85rem; line-height: 1.3; margin-top: 8px;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; z-index: 2;
+        }
+
+        .card:hover { 
+            transform: translateY(-5px); border: 2px solid var(--orange); border-bottom-width: 2px; 
+            box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.05), 0 0 30px var(--orange);
+        }
+        .card:hover::before { animation: shine-sweep 2s; }
+        @keyframes shine-sweep { 0% { left: -100%; opacity: 0; } 50% { opacity: 1; } 100% { left: 200%; opacity: 0; } }
+
+        .btn-orange-wa {
+            background: #990000; border: 2px solid #990000; color: white; 
+            font-weight: 800; font-size: 0.9rem; text-align: center;
+            width: 100%; padding: 10px; border-radius: 12px;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            transition: all 0.3s ease; z-index: 2;
+        }
+        .btn-orange-wa:hover {
+            background: #00ff66; border-color: #00ff66; color: black; 
+            box-shadow: 0 0 20px #00ff66; transform: scale(1.02);
+        }
+
+        @media (max-width: 600px) {
+            .grid-container { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 10px 40px; }
+            .card { padding: 10px; border-radius: 12px; }
+            .card-header { flex-direction: column; gap: 5px; margin-bottom: 8px;}
+            .logo-and-type { flex-direction: column; align-items: flex-start; gap: 5px; width: 100%;}
+            .service-logo-img { width: 30px !important; height: 30px !important; min-width: 30px; padding: 3px; border-radius: 6px;}
+            .type-badge { font-size: 0.5rem; padding: 2px 4px; }
+            .status-badge { font-size: 0.5rem; padding: 2px 4px; align-self: flex-start;}
+            .service-info { margin-bottom: 5px; }
+            .service-info h3 { font-size: 0.75rem; margin-bottom: 0;}
+            .service-subtitle { font-size: 0.6rem; }
+            .price-number { font-size: 1.2rem; }
+            .currency { font-size: 0.8rem; }
+            .service-desc { display: none; }
+            .btn-orange-wa { font-size: 0.7rem; padding: 6px 0; border-radius: 8px;}
+        }
+
+        .faq-section { max-width: 800px; margin: 40px auto; padding: 0 15px;}
+        .section-title { text-align: center; margin-bottom: 25px; font-size: 1.5rem; font-weight: 800;}
+        .faq-item { margin-bottom: 12px; }
+        details { background: var(--card-bg); padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        details[open] { border-color: var(--orange); box-shadow: 0 0 15px rgba(0,38,230,0.3); }
+        summary { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 0.9rem; list-style: none; user-select: none; outline: none;}
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '+'; font-size: 1.5rem; color: var(--orange); }
+        details[open] summary::after { content: '-'; }
+        details p { margin-top: 10px; color: #aaa; font-size: 0.85rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; line-height: 1.5; }
+        footer { text-align: center; padding: 30px; color: #555; font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 20px;}
+        
+        .loading-msg { text-align: center; padding: 50px; color: var(--orange); font-weight: bold; width: 100%; grid-column: 1 / -1; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="brand-container">
+            <span class="brand-name">NEXO STREAM VIP</span>
+        </div>
+        
+        <h1 class="main-title">
+            Adquiere cuentas premium,<br>
+            revende y gana.
+        </h1>
+        <p style="color: var(--text-secondary); font-weight: 600; font-size: 0.9rem;">Todas cuentan con garantía total.</p>
+
+        <div class="hero-botones">
+            <a href="https://youtu.be/zbMpuR7-Fec" target="_blank" class="btn-youtube">
+                ▶️ ¿Cómo funciona este catálogo?
+            </a>
+            <a href="https://wa.me/593991296279?text=Hola,%20quiero%20información%20para%20poder%20revender" target="_blank" class="btn-revender">
+                💬 Info para revender
+            </a>
+        </div>
+    </header>
+
+    <section class="carousel-section">
+        <div class="marquee-container">
+            <div class="marquee-track" id="marquee-track">
+                <!-- JS rellena esto automáticamente -->
+            </div>
+        </div>
+    </section>
+
+    <div class="search-wrapper">
+        <div class="search-box">
+            <span style="color: var(--orange);">🔍</span>
+            <input type="text" id="searchInput" placeholder="Buscar servicio, combos o paneles...">
+        </div>
+    </div>
+
+    <!-- CATEGORÍAS CORREGIDAS (El botón de +18 busca 'adultos' internamente) -->
+    <div class="category-menu" id="category-menu">
+        <button onclick="filtrarCategoria('todas', this)" class="cat-btn active">Todas</button>
+        <button onclick="filtrarCategoria('Streaming', this)" class="cat-btn">Streaming</button>
+        <button onclick="filtrarCategoria('SOFTWARE/IA', this)" class="cat-btn">SOFTWARE/IA</button>
+        <button onclick="filtrarCategoria('OFERTAS', this)" class="cat-btn">OFERTAS</button>
+        <button onclick="filtrarCategoria('TV EN VIVO', this)" class="cat-btn">TV EN VIVO</button>
+        
+        <!-- ESTE BOTÓN DICE +18 PERO BUSCA "adultos" EN TU GOOGLE SHEETS -->
+        <button onclick="filtrarCategoria('adultos', this)" class="cat-btn">+18</button>
+        
+        <button onclick="filtrarCategoria('Juegos', this)" class="cat-btn">Juegos</button>
+        <button onclick="filtrarCategoria('Musica', this)" class="cat-btn">Musica</button>
+        <a href="https://nexostream-cursos.netlify.app/" target="_blank" class="cat-btn" style="color: #ccc;">Cursos ↗</a>
+    </div>
+
+    <div class="container-box">
+        <div class="grid-container" id="catalog-grid">
+            <div class="loading-msg">Cargando catálogo en tiempo real...</div>
+        </div>
+    </div>
+
+    <section class="faq-section">
+        <h2 class="section-title">Preguntas Frecuentes</h2>
+        <div class="faq-item">
+            <details>
+                <summary>¿Cómo realizo una compra?</summary>
+                <p>Simplemente elige el producto que deseas, haz clic en "Comprar" y se abrirá tu WhatsApp con un mensaje predeterminado para procesar tu pago y entregarte la cuenta al instante.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary>¿Qué métodos de pago aceptan?</summary>
+                <p>Aceptamos pagos rápidos y sin comisiones mediante Binance Pay (USDT/USDC). Si estás en Ecuador, también aceptamos transferencia directa a Banco Pichincha o Guayaquil.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary>¿Tienen garantía las cuentas?</summary>
+                <p>Sí, todos nuestros servicios cuentan con garantía por el tiempo contratado. En caso de caídas (común en servicios digitales), el soporte lo resolvemos en un plazo de 12 a 24 horas.</p>
+            </details>
+        </div>
+        <div class="faq-item">
+            <details>
+                <summary>¿Qué significa "Para Revendedores"?</summary>
+                <p>Son paquetes mayoristas (Paneles o Combos) que te permiten comprar todas estas cuentas a precio de fábrica para que tú las revendas y te quedes con la ganancia.</p>
+            </details>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 NEXO STREAM VIP. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        const phoneNumber = "593991296279"; 
+        
+        const sheetId = "1jcj19C5HWaAIMMfhtuO1wxVWulkXnv7wzMxpjO7zltw";
+        const jsonUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+
+        let products = [];
+        const catalogContainer = document.getElementById('catalog-grid');
+        const marqueeTrack = document.getElementById('marquee-track');
+        const searchInput = document.getElementById('searchInput');
+
+        function init() {
+            fetch(jsonUrl)
+                .then(res => res.text())
+                .then(text => {
+                    const jsonString = text.substring(47, text.length - 2);
+                    const json = JSON.parse(jsonString);
+                    
+                    const rows = json.table.rows;
+                    const cols = json.table.cols;
+
+                    products = rows.map(row => {
+                        let obj = {};
+                        row.c.forEach((cell, index) => {
+                            let colName = cols[index].label.toLowerCase().trim();
+                            obj[colName] = (cell && cell.v !== null) ? cell.v : "";
+                        });
+                        return obj;
+                    }).filter(p => p.name && p.price);
+
+                    products = products.map(p => {
+                        p.price = parseFloat(p.price) || 0;
+                        return p;
+                    });
+
+                    renderCatalog(products);
+                    renderMarquee();
+                })
+                .catch(err => {
+                    console.error("Error al conectar con Google Sheets:", err);
+                    catalogContainer.innerHTML = "<p style='color:#ef4444; text-align:center; width:100%; grid-column: 1 / -1;'>Error al cargar. Revisa que el enlace de Google Sheets sea público.</p>";
+                });
+        }
+
+        function renderCatalog(items) {
+            if(!catalogContainer) return;
+            catalogContainer.innerHTML = "";
+            
+            if(items.length === 0) {
+                catalogContainer.innerHTML = "<p style='text-align:center; width:100%; grid-column: 1 / -1; color: #777;'>No se encontraron servicios.</p>";
+                return;
+            }
+
+            items.forEach((product, index) => {
+                let btnText = "Comprar";
+                let style = "";
+                let clickable = true;
+                
+                let currentStatus = product.status ? String(product.status).toUpperCase() : "DISPONIBLE";
+
+                if(currentStatus === "AGOTADO") {
+                    btnText = "Agotado";
+                    style = "background: #333; color: #777; border-color: #333; pointer-events: none; box-shadow: none;";
+                    clickable = false;
+                }
+
+                let typeClass = "type-perfil";
+                let rawType = product.type ? String(product.type).trim() : "";
+                
+                if(rawType === "Completa") typeClass = "type-completa";
+                if(rawType === "Panel") typeClass = "type-panel";
+                if(rawType === "Combo") typeClass = "type-combo";
+
+                let typeHtml = rawType ? `<span class="type-badge ${typeClass}">${rawType}</span>` : "";
+                let prodId = product.id || index + 1;
+
+                let msg = `Hola Nexo, deseo comprar: *${product.name}* (${product.subtitle || ''}) por ${product.currency || "$"}${product.price.toFixed(2)}`;
+                
+                if (product.category && String(product.category).toLowerCase().trim() === "ofertas") {
+                    btnText = "Más Info";
+                    msg = `Hola Nexo, quiero más información sobre la oferta: *${product.name}* (${product.subtitle || ''}).`;
+                }
+
+                const link = clickable ? `https://wa.me/${phoneNumber}?text=${encodeURIComponent(msg)}` : "#";
+
+                const html = `
+                    <article class="card" id="producto-${prodId}">
+                        <div class="card-header">
+                            <div class="logo-and-type">
+                                <img src="${product.logourl || product.logoUrl || ''}" alt="${product.name}" class="service-logo-img" onerror="this.src='https://via.placeholder.com/45?text=Logo'">
+                                ${typeHtml}
+                            </div>
+                            <div class="status-badge status-${currentStatus.toLowerCase()}">${currentStatus}</div>
+                        </div>
+                        <div class="service-info">
+                            <h3 class="service-name">${product.name}</h3>
+                            <span class="service-subtitle">${product.subtitle || ''}</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="price-row">
+                                <span class="currency">${product.currency || "$"}</span>
+                                <span class="price-number">${product.price.toFixed(2)}</span>
+                            </div>
+                            <p class="service-desc">${product.description || ''}</p>
+                        </div>
+                        <a href="${link}" target="_blank" class="btn-orange-wa" style="${style}">
+                            ${btnText}
+                        </a>
+                    </article>
+                `;
+                catalogContainer.innerHTML += html;
+            });
+        }
+
+        function renderMarquee() {
+            if(!marqueeTrack) return;
+            let html = "";
+            products.forEach((p, index) => {
+                let prodId = p.id || index + 1;
+                let img = p.logourl || p.logoUrl || '';
+                
+                // NUEVO: En vez de un enlace 'a href' usamos un div con un forzador de toque táctil para celulares.
+                html += `<div onclick="document.getElementById('producto-${prodId}').scrollIntoView({behavior: 'smooth', block: 'center'})" class="marquee-item"><img src="${img}" alt="" onerror="this.src='https://via.placeholder.com/22?text=L'">${p.name}</div>`;
+            });
+            marqueeTrack.innerHTML = html.repeat(6);
+        }
+
+        if(searchInput) {
+            searchInput.addEventListener('keyup', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = products.filter(p => 
+                    (p.name && String(p.name).toLowerCase().includes(term)) || 
+                    (p.subtitle && String(p.subtitle).toLowerCase().includes(term)) ||
+                    (p.category && String(p.category).toLowerCase().includes(term)) ||
+                    (p.type && String(p.type).toLowerCase().includes(term))
+                );
+                renderCatalog(filtered);
+                document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            });
+        }
+
+        function filtrarCategoria(categoria, boton) {
+            if(searchInput) searchInput.value = '';
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            boton.classList.add('active');
+
+            if (categoria === 'todas') {
+                renderCatalog(products); 
+            } else {
+                const filtrados = products.filter(p => p.category && String(p.category).toLowerCase().trim() === categoria.toLowerCase().trim());
+                renderCatalog(filtrados);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
